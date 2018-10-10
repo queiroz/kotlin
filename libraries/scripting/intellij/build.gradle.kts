@@ -20,5 +20,7 @@ sourceSets {
 
 standardPublicJars()
 
+ideaPlugin()
+
 publish()
 

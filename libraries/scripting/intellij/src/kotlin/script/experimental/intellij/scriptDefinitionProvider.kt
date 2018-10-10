@@ -21,7 +21,7 @@ interface ScriptDefinitionsProvider {
 
     companion object {
         val EP_NAME: ExtensionPointName<ScriptDefinitionsProvider> =
-            ExtensionPointName.create<ScriptDefinitionsProvider>("kotlin.script.experimental.intellij.scriptDefinitionsProvider")
+            ExtensionPointName.create<ScriptDefinitionsProvider>("org.jetbrains.kotlin.scriptDefinitionsProvider")
 
         inline fun <reified T> find(project: Project) =
             Extensions.getArea(project).getExtensionPoint(ScriptDefinitionsProvider.EP_NAME).extensions.filterIsInstance<T>().firstOrNull()
