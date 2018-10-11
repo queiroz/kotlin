@@ -25,6 +25,7 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 import org.jetbrains.kotlin.idea.KotlinFileType
 import org.jetbrains.kotlin.psi.KtFile
+import org.jetbrains.kotlin.serialization.deserialization.builtins.BuiltInSerializerProtocol
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
@@ -44,7 +45,12 @@ interface ScriptDefinitionProvider {
 
 fun findScriptDefinition(file: VirtualFile, project: Project): KotlinScriptDefinition? {
     if (file.isDirectory) return null
-    if (file.extension == KotlinFileType.EXTENSION || file.extension == JavaClassFileType.INSTANCE.defaultExtension) return null
+
+    val extension = file.extension
+    if (extension == KotlinFileType.EXTENSION ||
+        extension == JavaClassFileType.INSTANCE.defaultExtension ||
+        extension == BuiltInSerializerProtocol.BUILTINS_FILE_EXTENSION
+    ) return null
 
     val psiFile = PsiManager.getInstance(project).findFile(file)
     if (psiFile != null) {
