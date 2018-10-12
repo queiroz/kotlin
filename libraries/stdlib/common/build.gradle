@@ -124,7 +124,13 @@ task distCommon(type: Copy) {
     rename "-${java.util.regex.Pattern.quote(version)}", ''
 }
 
-dist.dependsOn distCommon
+task distCommonSources(type: Copy) {
+    from(sourcesJar)
+    into "$distDir/common"
+    rename "-${java.util.regex.Pattern.quote(version)}", ''
+}
+
+dist.dependsOn(distCommon, distCommonSources)
 
 task experimentalCommonJarsDist(type: Copy) {
     from coroutinesCommonJar

@@ -116,6 +116,12 @@ task distSourcesJar(type: Jar) {
     }
 }
 
+task distSourcesJarNoCommon(type: Copy) {
+    from(sourcesJar)
+    into "$distDir/maven"
+    rename "-${java.util.regex.Pattern.quote(version)}", ''
+}
+
 artifacts {
     archives sourcesJar
     archives javadocJar
@@ -127,6 +133,9 @@ dist {
             rename('dist-', '')
         }
     }
+
+    dependsOn distSourcesJarNoCommon
+
     from (configurations.compile) {
         include 'annotations*.jar'
     }
